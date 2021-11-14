@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { TasksList } from "./TasksList"
+import { useHistory } from "react-router"
+import { TasksItem } from "./TasksItem"
 import "./Tasks.scss"
 
 const TasksHeader = () => {
@@ -33,13 +34,15 @@ const TasksBottom = ({
             <div className='tasks-bottom__row'>
                 <span className='tasks-bottom__current-tasks-numbers'>
                     записи {currentPageNumber * pageSize - pageSize + 1}-
-                    {currentPageNumber * pageSize}
+                    {currentPageNumber * pageSize <= tasksLength
+                        ? currentPageNumber * pageSize
+                        : tasksLength}
                 </span>
 
                 <div className='tasks-bottom__btns-block'>
                     <button
                         disabled={currentPageNumber === 1}
-                        className='tasks__prev-button'
+                        className='tasks-bottom__prev-button'
                         onClick={() => setCurrentPageNumber(1)}
                     >
                         {"«"}
@@ -47,7 +50,7 @@ const TasksBottom = ({
 
                     <button
                         disabled={currentPageNumber === 1}
-                        className='tasks__prev-button'
+                        className='tasks-bottom__prev-button'
                         onClick={() =>
                             setCurrentPageNumber(currentPageNumber - 1)
                         }
@@ -55,9 +58,13 @@ const TasksBottom = ({
                         {"<"}
                     </button>
 
-                    <span onClick={() => setEditMode(true)}>
+                    <span
+                        className='tasks-bottom__current-page-label'
+                        onClick={() => setEditMode(true)}
+                    >
                         {isEditMode ? (
                             <input
+                                className='tasks-bottom__current-page-input'
                                 autoFocus
                                 defaultValue={currentPageNumber}
                                 onBlur={(e) => {
@@ -74,7 +81,7 @@ const TasksBottom = ({
 
                     <button
                         disabled={currentPageNumber >= tasksLength / pageSize}
-                        className='tasks__prev-button'
+                        className='tasks-bottom__next-button'
                         onClick={() =>
                             setCurrentPageNumber(currentPageNumber + 1)
                         }
@@ -84,7 +91,7 @@ const TasksBottom = ({
 
                     <button
                         disabled={currentPageNumber >= tasksLength / pageSize}
-                        className='tasks__prev-button'
+                        className='tasks-bottom__next-button'
                         onClick={() =>
                             setCurrentPageNumber(
                                 Math.ceil(tasksLength / pageSize)
@@ -96,13 +103,16 @@ const TasksBottom = ({
                 </div>
 
                 <select
+                    className='tasks-bottom__select'
                     onChange={(e) => {
                         setCurrentPageNumber(1)
                         setPageSize(+e.target.value)
                     }}
                     value={pageSize}
                 >
-                    <option value={25}>25</option>
+                    <option className='tasks-bottom__select-option' value={25}>
+                        25
+                    </option>
                     <option value={15}>15</option>
                     <option value={5}>5</option>
                 </select>
@@ -115,6 +125,7 @@ const Tasks = ({ tasks }) => {
     const [currentTasks, setCurrentTasks] = useState([])
     const [currentPageNumber, setCurrentPageNumber] = useState(1)
     const [pageSize, setPageSize] = useState(5)
+    const history = useHistory()
 
     useEffect(() => {
         const begin = (currentPageNumber - 1) * pageSize
@@ -129,7 +140,18 @@ const Tasks = ({ tasks }) => {
             <div className='tasks__container container'>
                 <TasksHeader />
 
-                <TasksList tasks={currentTasks} />
+                <div className='tasks__list tasks-list'>
+                    <div className='tasks-list__container'>
+                        {currentTasks.map((task) => (
+                            <TasksItem
+                                onClick={() =>
+                                    history.push(`/tasks/${task.id}`)
+                                }
+                                {...task}
+                            />
+                        ))}
+                    </div>
+                </div>
 
                 <TasksBottom
                     currentPageNumber={currentPageNumber}

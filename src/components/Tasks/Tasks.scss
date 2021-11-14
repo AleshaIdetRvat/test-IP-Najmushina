@@ -1,0 +1,126 @@
+.tasks {
+}
+.tasks__container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.tasks__header {
+    flex: 0 0 10%;
+}
+.tasks__list {
+    flex: 0 0 80%;
+
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+.tasks__bottom {
+    flex: 0 0 10%;
+}
+
+// Tasks Header
+.tasks-header {
+}
+.tasks-header__container {
+}
+.tasks-header__row {
+}
+.tasks-header__item {
+}
+
+// Tasks Bottom
+.tasks-bottom {
+    font-family: "Fira Code", monospace;
+    width: 100%;
+}
+.tasks-bottom__row {
+    display: flex;
+}
+.tasks-bottom__current-tasks-numbers {
+}
+.tasks-bottom__btns-block {
+}
+.tasks-bottom__prev-button,
+.tasks-bottom__next-button {
+    font-family: "Fira Code", monospace;
+}
+
+.tasks-bottom__prev-button {
+}
+.tasks-bottom__next-button {
+}
+.tasks-bottom__current-page-label {
+}
+
+.tasks-bottom__select {
+}
+.tasks-bottom__select-option {
+}
+
+/// Tasks List
+.tasks-list {
+}
+.tasks-list__container {
+    display: grid;
+    gap: 6px;
+    grid-template-columns: 0.3fr 0.5fr auto min-content;
+}
+// task element (ячейка)
+
+.task-elem {
+    transition: 0.2s;
+
+    border-radius: 5px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+    box-shadow: var(--pretty-shadow);
+    padding: 6px 10px;
+}
+.task-elem__title,
+.task-elem__subtitle {
+    white-space: nowrap;
+    padding-bottom: 5px;
+}
+
+.task-elem__subtitle {
+    font-size: 0.8em;
+    color: var(--black-light);
+}
+
+.task-elem__column {
+    display: flex;
+    flex-direction: column;
+}
+.task-number {
+    cursor: pointer;
+    border: 2px solid rgba(0, 0, 0, 0.15);
+
+    &:hover {
+        @media (min-width: 769px) {
+            box-shadow: var(--pretty-shadow-hover);
+            transform: translate(0px, -5px);
+        }
+        border-color: var(--green);
+    }
+}
+
+.task-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 7px 10px 8px;
+    font-weight: bold;
+}
+
+.task-account-and-terminal {
+    overflow: hidden;
+    max-width: 100%;
+    padding-right: 0;
+
+    .task-elem__title,
+    .task-elem__subtitle {
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+    }
+}
