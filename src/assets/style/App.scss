@@ -116,11 +116,15 @@ button {
         font-size: 14px;
     }
 
+    @media (max-width: 645px) {
+        font-size: 10px;
+    }
+
     background-color: var(--grey);
     color: var(--black);
 
-    background-color: var(--black);
-    color: var(--grey);
+    // background-color: var(--black);
+    // color: var(--grey);
 }
 
 .container {

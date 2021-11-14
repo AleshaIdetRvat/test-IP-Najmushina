@@ -5,6 +5,14 @@ import "./Tasks.scss"
 
 const TasksHeader = () => {
     return (
+        <>
+            <div className='tasks-header__item'>Номер / Дата</div>
+            <div className='tasks-header__item'>Тип задания / Автор</div>
+            <div className='tasks-header__item'>Аккаунт / Терминал</div>
+            <div className='tasks-header__item'>Статус</div>
+        </>
+    )
+    return (
         <header className='tasks__header tasks-header'>
             <div className='tasks-header__container'>
                 <div className='tasks-header__row main-row'>
@@ -67,10 +75,15 @@ const TasksBottom = ({
                                 className='tasks-bottom__current-page-input'
                                 autoFocus
                                 defaultValue={currentPageNumber}
+                                type='number'
                                 onBlur={(e) => {
                                     setEditMode(false)
                                     const newPageNumber = +e.target.value
-                                    if (newPageNumber <= tasksLength / pageSize)
+                                    if (
+                                        newPageNumber <=
+                                            tasksLength / pageSize &&
+                                        newPageNumber > 0
+                                    )
                                         setCurrentPageNumber(newPageNumber)
                                 }}
                             ></input>
@@ -101,21 +114,27 @@ const TasksBottom = ({
                         {"»"}
                     </button>
                 </div>
-
-                <select
-                    className='tasks-bottom__select'
-                    onChange={(e) => {
-                        setCurrentPageNumber(1)
-                        setPageSize(+e.target.value)
-                    }}
-                    value={pageSize}
-                >
-                    <option className='tasks-bottom__select-option' value={25}>
-                        25
-                    </option>
-                    <option value={15}>15</option>
-                    <option value={5}>5</option>
-                </select>
+                <div className='tasks-bottom__select-block'>
+                    <span>по</span>
+                    <select
+                        className='tasks-bottom__select'
+                        onChange={(e) => {
+                            setCurrentPageNumber(1)
+                            setPageSize(+e.target.value)
+                        }}
+                        value={pageSize}
+                    >
+                        <option
+                            className='tasks-bottom__select-option'
+                            value={25}
+                        >
+                            25
+                        </option>
+                        <option value={15}>15</option>
+                        <option value={5}>5</option>
+                    </select>
+                    <span>записей</span>
+                </div>
             </div>
         </footer>
     )
@@ -138,10 +157,10 @@ const Tasks = ({ tasks }) => {
     return (
         <div className='tasks'>
             <div className='tasks__container container'>
-                <TasksHeader />
-
                 <div className='tasks__list tasks-list'>
                     <div className='tasks-list__container'>
+                        <TasksHeader />
+
                         {currentTasks.map((task) => (
                             <TasksItem
                                 onClick={() =>
