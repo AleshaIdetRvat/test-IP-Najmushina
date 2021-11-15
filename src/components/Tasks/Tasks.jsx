@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { useHistory } from "react-router"
 import { TasksItem } from "./TasksItem"
 import "./Tasks.scss"
@@ -6,35 +6,26 @@ import "./Tasks.scss"
 const TasksHeader = () => {
     return (
         <>
-            <div className='tasks-header__item'>Номер / Дата</div>
-            <div className='tasks-header__item'>Тип задания / Автор</div>
-            <div className='tasks-header__item'>Аккаунт / Терминал</div>
-            <div className='tasks-header__item'>Статус</div>
-        </>
-    )
-    return (
-        <header className='tasks__header tasks-header'>
-            <div className='tasks-header__container'>
-                <div className='tasks-header__row main-row'>
-                    <div className='tasks-header__item'>Номер / Дата</div>
-                    <div className='tasks-header__item'>
-                        Тип задания / Автор
-                    </div>
-                    <div className='tasks-header__item'>Аккаунт / Терминал</div>
-                    <div className='tasks-header__item'>Статус</div>
-                </div>
+            <div className='tasks-main-grid__header-item'>Номер / Дата</div>
+            <div className='tasks-main-grid__header-item'>
+                Тип задания / Автор
             </div>
-        </header>
+            <div className='tasks-main-grid__header-item'>
+                Аккаунт / Терминал
+            </div>
+            <div className='tasks-main-grid__header-item'>Статус</div>
+        </>
     )
 }
 
-const TasksBottom = ({
-    currentPageNumber,
-    setCurrentPageNumber,
-    tasksLength,
-    pageSize,
-    setPageSize,
-}) => {
+const TasksBottom = (props) => {
+    const {
+        currentPageNumber,
+        setCurrentPageNumber,
+        tasksLength,
+        pageSize,
+        setPageSize,
+    } = props
     const [isEditMode, setEditMode] = useState(false)
 
     return (
@@ -140,25 +131,21 @@ const TasksBottom = ({
     )
 }
 
-const Tasks = ({ tasks }) => {
-    const [currentTasks, setCurrentTasks] = useState([])
-    const [currentPageNumber, setCurrentPageNumber] = useState(1)
-    const [pageSize, setPageSize] = useState(5)
+const Tasks = ({
+    tasksLength,
+    currentPageNumber,
+    setCurrentPageNumber,
+    pageSize,
+    setPageSize,
+    currentTasks,
+}) => {
     const history = useHistory()
-
-    useEffect(() => {
-        const begin = (currentPageNumber - 1) * pageSize
-
-        const end = begin + pageSize
-
-        setCurrentTasks(tasks.slice(begin, end))
-    }, [currentPageNumber, pageSize, tasks])
 
     return (
         <div className='tasks'>
             <div className='tasks__container container'>
-                <div className='tasks__list tasks-list'>
-                    <div className='tasks-list__container'>
+                <div className='tasks__main-grid tasks-main-grid'>
+                    <div className='tasks-main-grid__container'>
                         <TasksHeader />
 
                         {currentTasks.map((task) => (
@@ -175,7 +162,7 @@ const Tasks = ({ tasks }) => {
                 <TasksBottom
                     currentPageNumber={currentPageNumber}
                     setCurrentPageNumber={setCurrentPageNumber}
-                    tasksLength={tasks.length}
+                    tasksLength={tasksLength}
                     pageSize={pageSize}
                     setPageSize={setPageSize}
                 />
@@ -183,5 +170,49 @@ const Tasks = ({ tasks }) => {
         </div>
     )
 }
+
+// const Tasks = ({ tasks }) => {
+//     const [currentTasks, setCurrentTasks] = useState([])
+//     const [currentPageNumber, setCurrentPageNumber] = useState(1)
+//     const [pageSize, setPageSize] = useState(5)
+//     const history = useHistory()
+
+//     useEffect(() => {
+//         const begin = (currentPageNumber - 1) * pageSize
+
+//         const end = begin + pageSize
+
+//         setCurrentTasks(tasks.slice(begin, end))
+//     }, [currentPageNumber, pageSize, tasks])
+
+//     return (
+//         <div className='tasks'>
+//             <div className='tasks__container container'>
+//                 <div className='tasks__main-grid tasks-main-grid'>
+//                     <div className='tasks-main-grid__container'>
+//                         <TasksHeader />
+
+//                         {currentTasks.map((task) => (
+//                             <TasksItem
+//                                 onClick={() =>
+//                                     history.push(`/tasks/${task.id}`)
+//                                 }
+//                                 {...task}
+//                             />
+//                         ))}
+//                     </div>
+//                 </div>
+
+//                 <TasksBottom
+//                     currentPageNumber={currentPageNumber}
+//                     setCurrentPageNumber={setCurrentPageNumber}
+//                     tasksLength={tasks.length}
+//                     pageSize={pageSize}
+//                     setPageSize={setPageSize}
+//                 />
+//             </div>
+//         </div>
+//     )
+// }
 
 export { Tasks }
