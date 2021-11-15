@@ -1,8 +1,6 @@
-# Test for Social Media-Holding React App
+# Test for IP-Najmushina
 
 ## Scripts
-
-### `git clone https://github.com/AleshaIdetRvat/test-social-media-holding.git`
 
 ### `yarn install`
 
