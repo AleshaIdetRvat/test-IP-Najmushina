@@ -23,6 +23,7 @@
 // Tasks Header
 
 .tasks-main-grid__header-item {
+    z-index: 2;
     position: sticky;
     top: 0;
     padding: 15px 10px;
